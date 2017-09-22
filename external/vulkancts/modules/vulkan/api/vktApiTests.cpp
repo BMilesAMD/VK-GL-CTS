@@ -39,6 +39,7 @@
 #include "vktApiNullHandleTests.hpp"
 #include "vktApiGranularityTests.hpp"
 #include "vktApiGetMemoryCommitment.hpp"
+#include "vktApiExternalMemoryTests.hpp"
 
 namespace vkt
 {
@@ -65,7 +66,7 @@ void createApiTests (tcu::TestCaseGroup* apiTests)
 	apiTests->addChild(createDeviceInitializationTests	(testCtx));
 	apiTests->addChild(createObjectManagementTests		(testCtx));
 	apiTests->addChild(createBufferTests				(testCtx));
-	apiTests->addChild(createTestGroup					(testCtx, "buffer_view", "BufferView tests", createBufferViewTests));
+	apiTests->addChild(createTestGroup					(testCtx, "buffer_view",	"BufferView tests",		createBufferViewTests));
 	apiTests->addChild(createCommandBuffersTests		(testCtx));
 	apiTests->addChild(createCopiesAndBlittingTests		(testCtx));
 	apiTests->addChild(createImageClearingTests			(testCtx));
@@ -74,6 +75,7 @@ void createApiTests (tcu::TestCaseGroup* apiTests)
 	apiTests->addChild(createNullHandleTests			(testCtx));
 	apiTests->addChild(createGranularityQueryTests		(testCtx));
 	apiTests->addChild(createMemoryCommitmentTests		(testCtx));
+	apiTests->addChild(createExternalMemoryTests		(testCtx));
 }
 
 } // anonymous

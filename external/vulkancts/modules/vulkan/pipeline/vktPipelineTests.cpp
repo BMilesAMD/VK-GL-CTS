@@ -39,6 +39,7 @@
 #include "vktPipelineTimestampTests.hpp"
 #include "vktPipelineCacheTests.hpp"
 #include "vktPipelineRenderToImageTests.hpp"
+#include "vktPipelineFramebufferAttachmentTests.hpp"
 #include "vktTestGroupUtil.hpp"
 
 namespace vkt
@@ -64,11 +65,12 @@ void createChildren (tcu::TestCaseGroup* pipelineTests)
 	pipelineTests->addChild(createMultisampleTests				(testCtx));
 	pipelineTests->addChild(createMultisampleInterpolationTests	(testCtx));
 	pipelineTests->addChild(createMultisampleShaderBuiltInTests	(testCtx));
-	pipelineTests->addChild(createVertexInputTests				(testCtx));
+	pipelineTests->addChild(createTestGroup						(testCtx,	"vertex_input", "", createVertexInputTests));
 	pipelineTests->addChild(createInputAssemblyTests			(testCtx));
 	pipelineTests->addChild(createTimestampTests				(testCtx));
 	pipelineTests->addChild(createCacheTests					(testCtx));
 	pipelineTests->addChild(createRenderToImageTests			(testCtx));
+	pipelineTests->addChild(createFramebufferAttachmentTests	(testCtx));
 }
 
 } // anonymous

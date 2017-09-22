@@ -26,6 +26,7 @@
 #include "vktPipelineMultisampleTestsUtil.hpp"
 #include "vktPipelineMakeUtil.hpp"
 #include "vkQueryUtil.hpp"
+#include "tcuTestLog.hpp"
 #include <vector>
 
 namespace vkt
@@ -286,6 +287,9 @@ template<> void MSCase<MSCaseInterpolateAtSampleDistinctValues>::initPrograms (v
 
 template<> TestInstance* MSCase<MSCaseInterpolateAtSampleDistinctValues>::createInstance (Context& context) const
 {
+	if (!context.getDeviceFeatures().sampleRateShading)
+		TCU_THROW(NotSupportedError, "sampleRateShading support required");
+
 	return new MSInstance<MSInstanceDistinctValues>(context, m_imageMSParams);
 }
 
@@ -408,6 +412,9 @@ template<> void MSCase<MSCaseInterpolateAtSampleSingleSample>::initPrograms (vk:
 
 template<> TestInstance* MSCase<MSCaseInterpolateAtSampleSingleSample>::createInstance (Context& context) const
 {
+	if (!context.getDeviceFeatures().sampleRateShading)
+		TCU_THROW(NotSupportedError, "sampleRateShading support required");
+
 	return new MSInstance<MSInstanceInterpolateScreenPosition>(context, m_imageMSParams);
 }
 
@@ -477,6 +484,9 @@ template<> void MSCase<MSCaseInterpolateAtSampleIgnoresCentroid>::initPrograms (
 
 template<> TestInstance* MSCase<MSCaseInterpolateAtSampleIgnoresCentroid>::createInstance (Context& context) const
 {
+	if (!context.getDeviceFeatures().sampleRateShading)
+		TCU_THROW(NotSupportedError, "sampleRateShading support required");
+
 	return new MSInstance<MSInstanceInterpolateScreenPosition>(context, m_imageMSParams);
 }
 
@@ -545,6 +555,9 @@ template<> void MSCase<MSCaseInterpolateAtSampleConsistency>::initPrograms (vk::
 
 template<> TestInstance* MSCase<MSCaseInterpolateAtSampleConsistency>::createInstance (Context& context) const
 {
+	if (!context.getDeviceFeatures().sampleRateShading)
+		TCU_THROW(NotSupportedError, "sampleRateShading support required");
+
 	return new MSInstance<MSInstanceInterpolateScreenPosition>(context, m_imageMSParams);
 }
 
@@ -613,6 +626,9 @@ template<> void MSCase<MSCaseInterpolateAtCentroidConsistency>::initPrograms (vk
 
 template<> TestInstance* MSCase<MSCaseInterpolateAtCentroidConsistency>::createInstance (Context& context) const
 {
+	if (!context.getDeviceFeatures().sampleRateShading)
+		TCU_THROW(NotSupportedError, "sampleRateShading support required");
+
 	return new MSInstance<MSInstanceInterpolateScreenPosition>(context, m_imageMSParams);
 }
 
@@ -688,6 +704,9 @@ template<> void MSCase<MSCaseInterpolateAtOffsetPixelCenter>::initPrograms (vk::
 
 template<> TestInstance* MSCase<MSCaseInterpolateAtOffsetPixelCenter>::createInstance (Context& context) const
 {
+	if (!context.getDeviceFeatures().sampleRateShading)
+		TCU_THROW(NotSupportedError, "sampleRateShading support required");
+
 	return new MSInstance<MSInstanceInterpolateScreenPosition>(context, m_imageMSParams);
 }
 
@@ -758,6 +777,9 @@ template<> void MSCase<MSCaseInterpolateAtOffsetSamplePosition>::initPrograms (v
 
 template<> TestInstance* MSCase<MSCaseInterpolateAtOffsetSamplePosition>::createInstance (Context& context) const
 {
+	if (!context.getDeviceFeatures().sampleRateShading)
+		TCU_THROW(NotSupportedError, "sampleRateShading support required");
+
 	return new MSInstance<MSInstanceInterpolateScreenPosition>(context, m_imageMSParams);
 }
 

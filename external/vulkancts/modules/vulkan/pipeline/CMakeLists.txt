@@ -47,6 +47,8 @@ set(DEQP_VK_PIPELINE_SRCS
 	vktPipelineReferenceRenderer.hpp
 	vktPipelineRenderToImageTests.cpp
 	vktPipelineRenderToImageTests.hpp
+	vktPipelineFramebufferAttachmentTests.cpp
+	vktPipelineFramebufferAttachmentTests.hpp
 	vktPipelineSamplerTests.cpp
 	vktPipelineSamplerTests.hpp
 	vktPipelineStencilTests.cpp
@@ -67,7 +69,6 @@ set(DEQP_VK_PIPELINE_SRCS
 	)
 
 set(DEQP_VK_PIPELINE_LIBS
-	deqp-vk-common
 	tcutil
 	vkutil
 	referencerenderer

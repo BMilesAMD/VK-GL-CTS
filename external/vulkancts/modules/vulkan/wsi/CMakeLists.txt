@@ -9,10 +9,17 @@ set(DEQP_VK_WSI_SRCS
 	vktWsiSurfaceTests.hpp
 	vktWsiSwapchainTests.cpp
 	vktWsiSwapchainTests.hpp
+	vktWsiIncrementalPresentTests.cpp
+	vktWsiIncrementalPresentTests.hpp
+	vktWsiDisplayTimingTests.cpp
+	vktWsiDisplayTimingTests.hpp
+	vktWsiSharedPresentableImageTests.cpp
+	vktWsiSharedPresentableImageTests.hpp
+	vktWsiDisplayTests.hpp
+	vktWsiDisplayTests.cpp
 	)
 
 set(DEQP_VK_WSI_LIBS
-	deqp-vk-common
 	tcutil
 	vkutil
 	)

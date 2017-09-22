@@ -396,15 +396,7 @@ InstancedDrawInstance::InstancedDrawInstance(Context &context, TestParams params
 	const CmdPoolCreateInfo cmdPoolCreateInfo(queueFamilyIndex);
 	m_cmdPool = vk::createCommandPool(m_vk, device, &cmdPoolCreateInfo);
 
-	const vk::VkCommandBufferAllocateInfo cmdBufferAllocateInfo =
-	{
-		vk::VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,	// VkStructureType			sType;
-		DE_NULL,											// const void*				pNext;
-		*m_cmdPool,											// VkCommandPool			commandPool;
-		vk::VK_COMMAND_BUFFER_LEVEL_PRIMARY,				// VkCommandBufferLevel		level;
-		1u,													// deUint32					bufferCount;
-	};
-	m_cmdBuffer = vk::allocateCommandBuffer(m_vk, device, &cmdBufferAllocateInfo);
+	m_cmdBuffer = vk::allocateCommandBuffer(m_vk, device, *m_cmdPool, vk::VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 
 	const vk::Unique<vk::VkShaderModule> vs(createShaderModule(m_vk, device, m_context.getBinaryCollection().get("InstancedDrawVert"), 0));
 	const vk::Unique<vk::VkShaderModule> fs(createShaderModule(m_vk, device, m_context.getBinaryCollection().get("InstancedDrawFrag"), 0));
@@ -442,22 +434,29 @@ InstancedDrawInstance::InstancedDrawInstance(Context &context, TestParams params
 tcu::TestStatus InstancedDrawInstance::iterate()
 {
 	const vk::VkQueue		queue					= m_context.getUniversalQueue();
-	static const deUint32	instanceCounts[]		= { 1, 2, 4, 20 };
+	static const deUint32	instanceCounts[]		= { 0, 1, 2, 4, 20 };
 	static const deUint32	firstInstanceIndices[]	= { 0, 1, 3, 4, 20 };
 
 	qpTestResult			res						= QP_TEST_RESULT_PASS;
 
 	const vk::VkClearColorValue clearColor = { { 0.0f, 0.0f, 0.0f, 1.0f } };
 	const CmdBufferBeginInfo beginInfo;
+	int firstInstanceIndicesCount = 1;
+
+	// Require 'drawIndirectFirstInstance' feature to run non-zero firstInstance indirect draw tests.
+	if (m_context.getDeviceFeatures().drawIndirectFirstInstance)
+		firstInstanceIndicesCount = DE_LENGTH_OF_ARRAY(firstInstanceIndices);
 
 	for (int instanceCountNdx = 0; instanceCountNdx < DE_LENGTH_OF_ARRAY(instanceCounts); instanceCountNdx++)
 	{
 		const deUint32 instanceCount = instanceCounts[instanceCountNdx];
-		for (int firstInstanceIndexNdx = 0; firstInstanceIndexNdx < DE_LENGTH_OF_ARRAY(firstInstanceIndices); firstInstanceIndexNdx++)
+		for (int firstInstanceIndexNdx = 0; firstInstanceIndexNdx < firstInstanceIndicesCount; firstInstanceIndexNdx++)
 		{
-			const deUint32 firstInstance = firstInstanceIndices[firstInstanceIndexNdx];
+			// Prepare vertex data for at least one instance
+			const deUint32				prepareCount			= de::max(instanceCount, 1u);
+			const deUint32				firstInstance			= firstInstanceIndices[firstInstanceIndexNdx];
 
-			prepareVertexData(instanceCount, firstInstance);
+			prepareVertexData(prepareCount, firstInstance);
 			const de::SharedPtr<Buffer>	vertexBuffer			= createAndUploadBuffer(m_data, m_vk, m_context);
 			const de::SharedPtr<Buffer>	instancedVertexBuffer	= createAndUploadBuffer(m_instancedColor, m_vk, m_context);
 			de::SharedPtr<Buffer>		indexBuffer;
